@@ -30,3 +30,11 @@ export type Movie = {
     website: string;
     response: string;
 };
+
+export type User = {
+    name: string;
+    email: string;
+    image: string;
+    watchlist: Movie[];
+    ratings: Movie[];
+};
