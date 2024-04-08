@@ -29,6 +29,7 @@ export type Movie = {
     production: string;
     website: string;
     response: string;
+    userRating: string;
 };
 
 export type User = {
