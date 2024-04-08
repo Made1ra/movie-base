@@ -2,7 +2,7 @@ import { memo } from 'react';
 import { Typography, Button } from '@mui/material';
 import { signOut } from '@/auth';
 
-function SignOut({ children }: { children: React.ReactNode }) {
+async function SignOut({ children }: { children: React.ReactNode }) {
     return (
         <form
             action={async () => {

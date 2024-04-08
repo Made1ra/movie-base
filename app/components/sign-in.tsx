@@ -1,8 +1,9 @@
 import { memo } from 'react';
 import { Typography, Button } from '@mui/material';
 import { signIn } from '@/auth';
+import GoogleIcon from '@/app/components/google-icon';
 
-function SignIn() {
+async function SignIn() {
     return (
         <form
             action={async () => {
@@ -11,7 +12,9 @@ function SignIn() {
             }}
         >
             <Typography>You are not logged in</Typography>
-            <Button variant="outlined" type="submit">Sign in with Google</Button>
+            <Button variant="outlined" type="submit" startIcon={<GoogleIcon />}>
+                Sign in with Google
+            </Button>
         </form>
     );
 }
