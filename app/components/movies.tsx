@@ -1,9 +1,8 @@
 import { memo } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { Card, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { Movie } from '@/app/lib/definitions';
 import { getMovies } from '@/app/lib/actions';
+import MovieCard from '@/app/components/movie-card';
 
 async function Movies({ query }: { query: string }) {
     const movies = await getMovies(query);
@@ -13,28 +12,13 @@ async function Movies({ query }: { query: string }) {
             {movies && (
                 <div className="flex flex-col justify-center items-center m-4">
                     {movies.map((movie: Movie) => (
-                        <Link key={movie.imdbID} href={`/title/${movie.imdbID}`}>
-                            <Card className="flex flex-col justify-center items-center mb-4 w-96 p-2 rounded shadow border
-                            hover:border-blue-400
-                            active:border-blue-400 active:border-dashed">
-                                {movie.Poster === 'N/A' ? (
-                                    <Typography>No poster available</Typography>
-                                ) : (
-                                    <div className="relative w-80 h-80">
-                                        <Image
-                                            src={movie.Poster}
-                                            alt={movie.Title || ''}
-                                            fill
-                                            sizes="100%"
-                                            priority
-                                            className="rounded-sm shadow"
-                                        />
-                                    </div>
-                                )}
-                                <Typography variant="h3" className="text-center">{movie.Title}</Typography>
-                                <Typography variant="h6" className="text-center">{movie.Year}</Typography>
-                            </Card>
-                        </Link>
+                        <MovieCard
+                            key={movie.imdbID}
+                            imdbID={movie.imdbID}
+                            Poster={movie.Poster}
+                            Title={movie.Title}
+                            Year={movie.Year}
+                        />
                     ))}
                 </div>
             )}
