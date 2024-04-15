@@ -29,7 +29,8 @@ export type Movie = {
     Production: string;
     Website: string;
     Response: string;
-    UserRating: string;
+    isInWatchlist: boolean;
+    userRating?: string;
 };
 
 export type User = {
