@@ -1,5 +1,7 @@
 'use server';
 
+import { signOut } from '@/auth';
+
 export async function getMovie(imdbID: string | string[]) {
     try {
         const API_KEY = process.env.API_KEY;
@@ -34,4 +36,8 @@ export async function getPoster(imdbID: string) {
     } catch (error) {
         console.error(error);
     }
+}
+
+export async function signOutFromGoogle() {
+    await signOut();
 }

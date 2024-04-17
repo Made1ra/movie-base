@@ -1,7 +1,8 @@
 import { Typography } from '@mui/material';
 import { auth } from '@/auth';
 import SignIn from '@/app/components/sign-in';
-import SignOut from '@/app/components/sign-out';
+import BackButton from '@/app/components/back-button';
+import AccountMenu from '@/app/components/account-menu';
 import Search from '@/app/components/search';
 import Movies from '@/app/components/movies';
 
@@ -14,15 +15,20 @@ export default async function Home({
   };
 }) {
   const session = await auth();
-  const user = session?.user?.name;
+  const user = session?.user;
   const query = searchParams?.query || '';
 
   return (
-    <div className="flex flex-col items-center mt-8 text-center min-h-screen">
-      <Typography variant="h3">Home</Typography>
+    <div className="flex flex-col items-center text-center min-h-screen">
+      <div className="mt-8">
+        <Typography variant="h3">Movie Base</Typography>
+      </div>
       {user ? (
         <>
-          <SignOut>{`Welcome, ${user}!`}</SignOut>
+          <div className="absolute top-8 left-8">
+            <BackButton />
+          </div>
+          <AccountMenu image={user?.image || ''} name={user?.name || ''} id={''} />
           <Search placeholder="Search movies..." />
           <Movies query={query} />
         </>
