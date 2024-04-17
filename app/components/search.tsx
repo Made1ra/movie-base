@@ -29,7 +29,7 @@ function Search({ placeholder }: { placeholder: string }) {
             placeholder={placeholder}
             defaultValue={searchParams.get('query')?.toString()}
             onChange={(event) => handleSearch(event.target.value)}
-            className="block bg-white rounded-md text-sm border border-gray-200 shadow"
+            className="block bg-white rounded text-sm border border-gray-200 shadow w-64"
         />
     );
 }
