@@ -3,7 +3,7 @@ import { Typography, Button } from '@mui/material';
 import { signIn } from '@/auth';
 import GoogleIcon from '@/app/components/google-icon';
 
-async function SignIn() {
+function SignIn() {
     return (
         <form
             action={async () => {

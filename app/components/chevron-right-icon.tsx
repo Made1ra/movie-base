@@ -1,6 +1,6 @@
 import { memo } from 'react';
 
-async function ChevronRightIcon({ className }: { className?: string }) {
+function ChevronRightIcon({ className }: { className?: string }) {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"

@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Card, Typography } from '@mui/material';
 
-async function MovieCard({ imdbID, Poster, Title, Year }: { imdbID: string, Poster: string, Title: string, Year: string }) {
+function MovieCard({ imdbID, Poster, Title, Year }: { imdbID: string, Poster: string, Title: string, Year: string }) {
     return (
         <Link href={`/title/${imdbID}`}>
             <Card className="flex flex-col justify-center items-center mb-4 w-96 p-2 rounded shadow border

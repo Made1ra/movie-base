@@ -1,6 +1,6 @@
 import { memo } from 'react';
 
-async function PlusIcon() {
+function PlusIcon() {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
