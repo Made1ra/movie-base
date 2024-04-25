@@ -7,6 +7,8 @@ import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
+import { ListItemIcon } from '@mui/material';
+import MovieIcon from '@/app/components/movie-icon';
 import SignOut from '@/app/components/sign-out';
 
 function AccountMenu({ image, name, id }: { image?: string; name?: string; id?: string; }) {
@@ -70,12 +72,24 @@ function AccountMenu({ image, name, id }: { image?: string; name?: string; id?: 
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
                 <MenuItem>
-                    <Link href={`/user/${id}/watchlist`}>
+                    <Link
+                        href={`/user/${id}/watchlist`}
+                        className="flex justify-center items-center"
+                    >
+                        <ListItemIcon>
+                            <MovieIcon />
+                        </ListItemIcon>
                         Your watchlist
                     </Link>
                 </MenuItem>
                 <MenuItem>
-                    <Link href={`/user/${id}/ratings`}>
+                    <Link
+                        href={`/user/${id}/ratings`}
+                        className="flex justify-center items-center"
+                    >
+                        <ListItemIcon>
+                            <MovieIcon />
+                        </ListItemIcon>
                         Your ratings
                     </Link>
                 </MenuItem>
