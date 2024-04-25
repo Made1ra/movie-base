@@ -7,11 +7,12 @@ import { Typography, Chip, Divider, List, ListItem, ListItemText, Button } from 
 import { Movie } from '@/app/lib/definitions';
 import { getMovie } from '@/app/lib/actions';
 import { convertToHoursAndMinutes, formatNumber } from '@/app/lib/utils';
+import BackButton from '@/app/components/back-button';
+import AccountMenu from '@/app/components/account-menu';
 import StarIcon from '@/app/components/star-icon';
 import ModalRating from '@/app/components/modal-rating';
 import ChevronRightIcon from '@/app/components/chevron-right-icon';
 import PlusIcon from '@/app/components/plus-icon';
-import BackButton from '@/app/components/back-button';
 
 export default function Title() {
     const [movie, setMovie] = useState<Movie | null>(null);
@@ -45,6 +46,7 @@ export default function Title() {
             <div className="absolute top-8 left-8">
                 <BackButton />
             </div>
+            <AccountMenu image={''} name={''} id={''} />
             <div className="flex flex-col gap-2">
                 <Typography variant="h3">{movie?.Title}</Typography>
                 <ul className="flex flex-row justify-center items-center gap-8">
