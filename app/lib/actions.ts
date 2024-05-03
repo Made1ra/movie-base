@@ -1,8 +1,6 @@
 'use server';
 
 import { signOut } from '@/auth';
-import { db } from '@/app/server/db';
-import { watchlist } from '@/app/server/db/schema';
 
 export async function getMovie(imdbID: string | string[]) {
     try {
@@ -30,8 +28,4 @@ export async function getMovies(searchQuery: string) {
 
 export async function signOutFromGoogle() {
     await signOut();
-}
-
-export async function postWatchlist(id: number, userID: string, movieID: string) {
-    await db.insert(watchlist).values({ id: id, userID: userID, movieID: movieID });
 }
