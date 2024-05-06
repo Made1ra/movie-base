@@ -1,6 +1,6 @@
 'use server';
 
-import { signOut } from '@/auth';
+import { signIn, signOut } from '@/auth';
 
 export async function getMovie(imdbID: string | string[]) {
     try {
@@ -24,6 +24,10 @@ export async function getMovies(searchQuery: string) {
     } catch (error) {
         console.error(error);
     }
+}
+
+export async function signInToGoogle() {
+    await signIn();
 }
 
 export async function signOutFromGoogle() {
