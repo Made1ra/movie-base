@@ -3,9 +3,6 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '@/app/theme';
 import './globals.css';
-import { UserStoreProvider } from '@/app/providers/user-store-provider';
-import { RatingsStoreProvider } from '@/app/providers/ratings-store-provider';
-import { WatchlistStoreProvider } from '@/app/providers/watchlist-store-provider';
 
 export const metadata: Metadata = {
   title: 'Movie Base',
@@ -22,13 +19,7 @@ export default function RootLayout({
       <body className="antialiased">
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
-            <UserStoreProvider>
-              <RatingsStoreProvider>
-                <WatchlistStoreProvider>
-                  {children}
-                </WatchlistStoreProvider>
-              </RatingsStoreProvider>
-            </UserStoreProvider>
+            {children}
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>

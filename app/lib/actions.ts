@@ -1,6 +1,16 @@
 'use server';
 
-import { signIn, signOut } from '@/auth';
+import { auth, signIn, signOut } from '@/auth';
+
+export async function authorizeUser() {
+    try {
+        const session = await auth();
+
+        return session;
+    } catch (error) {
+        console.error(error);
+    }
+}
 
 export async function getMovie(imdbID: string | string[]) {
     try {

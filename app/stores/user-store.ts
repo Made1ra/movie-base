@@ -1,4 +1,4 @@
-import { createStore } from 'zustand';
+import { create } from 'zustand';
 import { nanoid } from 'nanoid';
 import { User } from '@/app/lib/definitions';
 
@@ -12,15 +12,11 @@ export type UserActions = {
 
 export type UserStore = UserState & UserActions;
 
-export const defaultInitState: UserState = {
+export const useUserStore = create<UserStore>()((set) => ({
     user: null,
-};
-
-export const createUserStore = (
-    initState: UserState = defaultInitState,
-) => {
-    return createStore<UserStore>()((set) => ({
-        ...initState,
-        addUser: (name: string, email: string, image: string) => set((state) => ({ ...state, user: { id: nanoid(), name, email, image } })),
-    }));
-};
+    addUser: (name: string, email: string, image: string) =>
+        set((state) => ({
+            ...state,
+            user: { id: nanoid(), name, email, image },
+        })),
+}));

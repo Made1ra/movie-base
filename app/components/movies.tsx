@@ -1,11 +1,22 @@
-import { memo } from 'react';
+'use client';
+
+import { memo, useState, useEffect } from 'react';
 import { Typography } from '@mui/material';
 import { Movie } from '@/app/lib/definitions';
 import { getMovies } from '@/app/lib/actions';
 import MovieCard from '@/app/components/movie-card';
 
-async function Movies({ query }: { query: string }) {
-    const movies = await getMovies(query);
+function Movies({ query }: { query: string }) {
+    const [movies, setMovies] = useState<Array<Movie>>([]);
+
+    useEffect(() => {
+        async function fetchMovies() {
+            const movies = await getMovies(query);
+            setMovies(movies);
+        }
+
+        fetchMovies();
+    }, [query]);
 
     return (
         <div>

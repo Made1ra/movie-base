@@ -1,12 +1,13 @@
 'use client';
 
-import { useState, useEffect, SyntheticEvent } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Image from 'next/image';
 import { Typography, Chip, Divider, List, ListItem, ListItemText, Button } from '@mui/material';
 import { Movie } from '@/app/lib/definitions';
 import { getMovie } from '@/app/lib/actions';
 import { convertToHoursAndMinutes, formatNumber } from '@/app/lib/utils';
+import { useUserStore } from '@/app/stores/user-store';
 import BackButton from '@/app/components/back-button';
 import AccountMenu from '@/app/components/account-menu';
 import StarIcon from '@/app/components/star-icon';
@@ -20,9 +21,7 @@ export default function Title() {
     const [open, setOpen] = useState(false);
     const { id } = useParams();
 
-    function handleChange(_: SyntheticEvent<Element, Event>, newValue: number | null) {
-        setValue(newValue);
-    }
+    const { user } = useUserStore((state) => state);
 
     function handleOpen() {
         setOpen(true);
@@ -46,7 +45,7 @@ export default function Title() {
             <div className="absolute top-8 left-8">
                 <BackButton />
             </div>
-            <AccountMenu image={''} name={''} id={''} />
+            <AccountMenu image={user?.image} name={user?.name} id={user?.id} />
             <div className="flex flex-col gap-2">
                 <Typography variant="h3">{movie?.Title}</Typography>
                 <ul className="flex flex-row justify-center items-center gap-8">

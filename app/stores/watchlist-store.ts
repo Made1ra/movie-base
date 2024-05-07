@@ -1,4 +1,4 @@
-import { createStore } from 'zustand';
+import { create } from 'zustand';
 import { nanoid } from 'nanoid';
 
 type Watchlist = {
@@ -18,16 +18,8 @@ export type WatchlistActions = {
 
 export type WatchlistStore = WatchlistState & WatchlistActions;
 
-export const defaultInitState: WatchlistState = {
+export const useWatchlistStore = create<WatchlistState>()((set) => ({
     watchlist: [],
-};
-
-export const createWatchlistStore = (
-    initState: WatchlistState = defaultInitState,
-) => {
-    return createStore<WatchlistStore>()((set) => ({
-        ...initState,
-        addToWatchlist: (userID: string, movieID: string) => set((state) => ({ watchlist: [...state.watchlist, { id: nanoid(), userID, movieID }] })),
-        removeFromWatchlist: (id: string) => set((state) => ({ watchlist: state.watchlist.filter((w) => w.id !== id) })),
-    }));
-};
+    addToWatchlist: (userID: string, movieID: string) => set((state) => ({ watchlist: [...state.watchlist, { id: nanoid(), userID, movieID }] })),
+    removeFromWatchlist: (id: string) => set((state) => ({ watchlist: state.watchlist.filter((w) => w.id !== id) })),
+}));

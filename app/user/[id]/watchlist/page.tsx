@@ -1,21 +1,26 @@
+'use client';
+
 import { Metadata } from 'next';
-import { useParams } from 'next/navigation';
+import { useUserStore } from '@/app/stores/user-store';
 import BackButton from '@/app/components/back-button';
 import AccountMenu from '@/app/components/account-menu';
 
-export const metadata: Metadata = {
-    title: 'Your Watchlist - Movie Base',
-};
+// export const metadata: Metadata = {
+//     title: 'Your Watchlist - Movie Base',
+// };
 
-export default async function Watchlist() {
-    const { id } = useParams();
+export default function Watchlist() {
+    const { user } = useUserStore((state) => state);
 
     return (
-        <div>
-            <div className="absolute top-8 left-8">
-                <BackButton />
+        <>
+            <title>Your Watchlist - Movie Base</title>
+            <div>
+                <div className="absolute top-8 left-8">
+                    <BackButton />
+                </div>
+                <AccountMenu image={user?.image} name={user?.image} id={user?.image} />
             </div>
-            <AccountMenu image={''} name={''} id={''} />
-        </div>
+        </>
     );
 }
