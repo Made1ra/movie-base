@@ -1,6 +1,6 @@
 import { create } from 'zustand';
-import { nanoid } from 'nanoid';
 import { User } from '@/app/lib/definitions';
+import { emailToId } from '@/app/lib/utils';
 
 export type UserState = {
     user: User | null;
@@ -17,6 +17,6 @@ export const useUserStore = create<UserStore>()((set) => ({
     addUser: (name: string, email: string, image: string) =>
         set((state) => ({
             ...state,
-            user: { id: nanoid(), name, email, image },
+            user: { id: emailToId(email), name, email, image },
         })),
 }));
