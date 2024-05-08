@@ -30,7 +30,7 @@ export default function Home({
       const session = await authorizeUser();
       setSession(session);
       if (session?.user) {
-        addUser(session.user.name || '', session.user.email || '', session.user.image || '');
+        addUser(session.user.id || '', session.user.name || '', session.user.email || '', session.user.image || '');
       }
     }
 
