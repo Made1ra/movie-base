@@ -3,11 +3,13 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Image from 'next/image';
+import { nanoid } from 'nanoid';
 import { Typography, Chip, Divider, List, ListItem, ListItemText, Button } from '@mui/material';
 import { Movie } from '@/app/lib/definitions';
-import { getMovie } from '@/app/lib/actions';
+import { getMovie, postWatchlist, deleteWatchlist } from '@/app/lib/actions';
 import { convertToHoursAndMinutes, formatNumber } from '@/app/lib/utils';
 import { useUserStore } from '@/app/stores/user-store';
+import { useWatchlistStore } from '@/app/stores/watchlist-store';
 import BackButton from '@/app/components/back-button';
 import AccountMenu from '@/app/components/account-menu';
 import StarIcon from '@/app/components/star-icon';
@@ -22,6 +24,7 @@ export default function Title() {
     const { id } = useParams();
 
     const { user } = useUserStore((state) => state);
+    const { watchlist, addToWatchlist, removeFromWatchlist } = useWatchlistStore((state) => state);
 
     function handleOpen() {
         setOpen(true);
@@ -29,6 +32,19 @@ export default function Title() {
 
     function handleClose() {
         setOpen(false);
+    }
+
+    function addMovieToWatchlist(imdbID: string) {
+        addToWatchlist(nanoid(), user?.id || '', imdbID);
+        postWatchlist(nanoid(), user?.id || '', imdbID);
+    }
+
+    function removeMovieFromWatchlist(imdbID: string) {
+        const id = watchlist.find((w) => w.movieID === imdbID)?.id;
+        if (id) {
+            removeFromWatchlist(id);
+            deleteWatchlist(id, user?.id || '');
+        }
     }
 
     useEffect(() => {
@@ -135,7 +151,7 @@ export default function Title() {
                     <ChevronRightIcon className="text-black ml-4 hover:cursor-pointer" />
                 </div>
             )}
-            <Button startIcon={<PlusIcon />} onClick={undefined}>
+            <Button startIcon={<PlusIcon />} onClick={() => addMovieToWatchlist(movie?.imdbID || '')}>
                 <span className="-mb-1">Add to Watchlist</span>
             </Button>
             {movie?.Metascore && (
@@ -155,6 +171,7 @@ export default function Title() {
                 open={open}
                 onClose={handleClose}
                 title={movie?.Title || ''}
+                movieID={movie?.imdbID || ''}
             />
         </div>
     );

@@ -1,14 +1,40 @@
 'use client';
 
 import { useState, memo, SyntheticEvent } from 'react';
+import { nanoid } from 'nanoid';
 import { Modal, Box, Typography, Rating, Button } from '@mui/material';
+import { postRating, deleteRating } from '@/app/lib/actions';
+import { useUserStore } from '@/app/stores/user-store';
+import { useRatingsStore } from '@/app/stores/ratings-store';
 import StarIcon from '@/app/components/star-icon';
 
-function ModalRating({ open, onClose, title }: { open: boolean, onClose: () => void, title: string }) {
+function ModalRating({ open, onClose, title, movieID }: { open: boolean, onClose: () => void, title: string, movieID: string }) {
     const [value, setValue] = useState<number | null>(null);
+
+    const { user } = useUserStore((state) => state);
+    const { ratings, addRating, removeRating } = useRatingsStore((state) => state);
+
+    const isRated = ratings.find((rating) => rating.movieID === movieID);
 
     function handleChange(_: SyntheticEvent<Element, Event>, newValue: number | null) {
         setValue(newValue);
+    }
+
+    function rateMovie() {
+        if (value) {
+            addRating(nanoid(), user?.id || '', movieID, value);
+            postRating(nanoid(), user?.id || '', movieID, value);
+            onClose();
+        }
+    }
+
+    function unrateMovie() {
+        const id = ratings.find((rating) => rating.movieID === movieID)?.id;
+        if (id) {
+            removeRating(id);
+            deleteRating(id, user?.id || '');
+            onClose();
+        }
     }
 
     return (
@@ -33,15 +59,15 @@ function ModalRating({ open, onClose, title }: { open: boolean, onClose: () => v
                 </Typography>
                 <Rating value={value} onChange={handleChange} max={10} className="border-white outline-white mb-2" />
                 <Button
-                    onClick={undefined}
+                    onClick={rateMovie}
                     variant="contained"
                     disabled={!value}
                 >
                     Rate
                 </Button>
-                {/* {value && (
-                    <Button onClick={undefined} variant="contained" style={{ marginTop: '0.5rem' }}>Remove rating</Button>
-                )} */}
+                {isRated && (
+                    <Button onClick={unrateMovie} variant="contained" style={{ marginTop: '0.5rem' }}>Remove rating</Button>
+                )}
             </Box>
         </Modal >
     );

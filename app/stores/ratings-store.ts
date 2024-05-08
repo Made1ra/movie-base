@@ -1,5 +1,4 @@
 import { create } from 'zustand';
-import { nanoid } from 'nanoid';
 
 type Rating = {
     id: string;
@@ -13,18 +12,18 @@ export type RatingsState = {
 };
 
 export type RatingsActions = {
-    addRating: (userId: string, movieID: string, rating: number) => void;
+    addRating: (id: string, userID: string, movieID: string, rating: number) => void;
     editRating: (id: string, rating: number) => void;
-    deleteRating: (id: string) => void;
+    removeRating: (id: string) => void;
 };
 
 export type RatingsStore = RatingsState & RatingsActions;
 
-export const useRatingsStore = create<RatingsState>()((set) => ({
+export const useRatingsStore = create<RatingsStore>()((set) => ({
     ratings: [],
-    addRating: (userID: string, movieID: string, rating: number) => {
-        set((state) => ({ ratings: [...state.ratings, { id: nanoid(), userID, movieID, rating }] }))
+    addRating: (id: string, userID: string, movieID: string, rating: number) => {
+        set((state) => ({ ratings: [...state.ratings, { id: id, userID, movieID, rating }] }))
     },
     editRating: (id: string, rating: number) => set((state) => ({ ratings: state.ratings.map((r) => (r.id === id ? { ...r, rating } : r)) })),
-    deleteRating: (id: string) => set((state) => ({ ratings: state.ratings.filter((r) => r.id !== id) })),
+    removeRating: (id: string) => set((state) => ({ ratings: state.ratings.filter((r) => r.id !== id) })),
 }));
