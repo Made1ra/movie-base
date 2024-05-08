@@ -6,8 +6,7 @@ import { auth, signIn, signOut } from '@/auth';
 export async function authorizeUser() {
     try {
         const session = await auth();
-        const hash = bcrypt.hashSync(session?.user?.email || '', 0);
-        const id = hash.substring(hash.length - 10);
+        const id = bcrypt.hashSync(session?.user?.email || '', 0).slice(-10);
         if (session?.user) {
             session.user.id = id;
         }
