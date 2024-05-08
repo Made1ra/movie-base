@@ -5,20 +5,31 @@ import { auth, signIn, signOut } from '@/auth';
 
 export async function authorizeUser() {
     try {
+        let id = '';
         const session = await auth();
-        const id = bcrypt.hashSync(session?.user?.email || '', 0).slice(-10);
-        if (session?.user) {
-            session.user.id = id;
-        }
-
-        const response = await fetch('https://movie-base-backend-production.up.railway.app/', {
-            method: 'POST',
+        const response = await fetch(`https://movie-base-backend-production.up.railway.app/?email=${encodeURIComponent(session?.user?.email || '')}`, {
+            method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ id }),
         });
-        console.log('Session, response', session, response);
+        if (response.ok) {
+            const data = await response.json();
+            id = data.id;
+        } else {
+            id = bcrypt.hashSync(session?.user?.email || '', 0).slice(-10);
+            await fetch('https://movie-base-backend-production.up.railway.app/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ id, name: session?.user?.name, email: session?.user?.email, image: session?.user?.image }),
+            });
+        }
+
+        if (session?.user) {
+            session.user.id = id;
+        }
 
         return session;
     } catch (error) {
