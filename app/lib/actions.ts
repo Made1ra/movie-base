@@ -28,7 +28,7 @@ export async function authorizeUser() {
         }
 
         if (session?.user) {
-            session.user.id = id;
+            session.user.id = id.toLowerCase();
         }
 
         return session;
