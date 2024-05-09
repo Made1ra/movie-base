@@ -8,7 +8,21 @@ import { useUserStore } from '@/app/stores/user-store';
 import { useRatingsStore } from '@/app/stores/ratings-store';
 import StarIcon from '@/app/components/star-icon';
 
-function ModalRating({ open, onClose, title, movieID }: { open: boolean, onClose: () => void, title: string, movieID: string }) {
+function ModalRating({
+    open,
+    onClose,
+    title,
+    movieID,
+    rating,
+    setRating,
+}: {
+    open: boolean;
+    onClose: () => void;
+    title: string;
+    movieID: string;
+    rating: number | null;
+    setRating: (rating: number | null) => void;
+}) {
     const [value, setValue] = useState<number | null>(null);
 
     const { user } = useUserStore((state) => state);
@@ -24,6 +38,7 @@ function ModalRating({ open, onClose, title, movieID }: { open: boolean, onClose
         if (value) {
             addRating(nanoid(), user?.id || '', movieID, value);
             postRating(nanoid(), user?.id || '', movieID, value);
+            setRating(value);
             onClose();
         }
     }
@@ -33,6 +48,8 @@ function ModalRating({ open, onClose, title, movieID }: { open: boolean, onClose
         if (id) {
             removeRating(id);
             deleteRating(id, user?.id || '');
+            setValue(null);
+            setRating(value);
             onClose();
         }
     }
@@ -61,7 +78,7 @@ function ModalRating({ open, onClose, title, movieID }: { open: boolean, onClose
                 <Button
                     onClick={rateMovie}
                     variant="contained"
-                    disabled={!value}
+                    disabled={!value || value === rating}
                 >
                     Rate
                 </Button>

@@ -6,15 +6,17 @@ import Image from 'next/image';
 import { nanoid } from 'nanoid';
 import { Typography, Chip, Divider, List, ListItem, ListItemText, Button } from '@mui/material';
 import { Movie } from '@/app/lib/definitions';
-import { getMovie, postWatchlist, deleteWatchlist } from '@/app/lib/actions';
+import { getMovie, getTitleInfo, postWatchlist, deleteWatchlist } from '@/app/lib/actions';
 import { convertToHoursAndMinutes, formatNumber } from '@/app/lib/utils';
 import { useUserStore } from '@/app/stores/user-store';
 import { useWatchlistStore } from '@/app/stores/watchlist-store';
+import { useRatingsStore } from '@/app/stores/ratings-store';
 import BackButton from '@/app/components/back-button';
 import AccountMenu from '@/app/components/account-menu';
 import StarIcon from '@/app/components/star-icon';
 import ModalRating from '@/app/components/modal-rating';
 import ChevronRightIcon from '@/app/components/chevron-right-icon';
+import CheckIcon from '@/app/components/check-icon';
 import PlusIcon from '@/app/components/plus-icon';
 
 export default function Title() {
@@ -25,6 +27,7 @@ export default function Title() {
 
     const { user } = useUserStore((state) => state);
     const { watchlist, addToWatchlist, removeFromWatchlist } = useWatchlistStore((state) => state);
+    const { addRating } = useRatingsStore((state) => state);
 
     function handleOpen() {
         setOpen(true);
@@ -54,7 +57,23 @@ export default function Title() {
         }
 
         fetchMovie();
-    }, [id]);
+    }, [id, user?.id]);
+
+    useEffect(() => {
+        async function fetchInfo() {
+            const data = await getTitleInfo(typeof id === 'string' ? id : id[0], user?.id || '');
+            if (data.watchlist) {
+                addToWatchlist(data.watchlist.id, data.watchlist.userID, data.watchlist.movieID);
+            }
+
+            if (data.rating) {
+                setValue(data.rating.rating);
+                addRating(data.rating.id, data.rating.userID, data.rating.movieID, data.rating.rating);
+            }
+        }
+
+        fetchInfo();
+    }, [addRating, addToWatchlist, id, user?.id]);
 
     return (
         <div className="flex flex-col justify-center items-center min-h-screen">
@@ -96,14 +115,16 @@ export default function Title() {
                 </div>
             </div>
             <div className="relative w-80 h-96 my-2">
-                <Image
-                    src={movie?.Poster || ''}
-                    alt={movie?.Title || ''}
-                    fill
-                    sizes="100%"
-                    priority
-                    className="rounded-sm"
-                />
+                {movie?.Poster && (
+                    <Image
+                        src={movie?.Poster}
+                        alt={movie?.Title || ''}
+                        fill
+                        sizes="100%"
+                        priority
+                        className="rounded-sm"
+                    />
+                )}
             </div>
             <div className="flex flex-row gap-2 my-2">
                 {movie?.Genre
@@ -151,9 +172,15 @@ export default function Title() {
                     <ChevronRightIcon className="text-black ml-4 hover:cursor-pointer" />
                 </div>
             )}
-            <Button startIcon={<PlusIcon />} onClick={() => addMovieToWatchlist(movie?.imdbID || '')}>
-                <span className="-mb-1">Add to Watchlist</span>
-            </Button>
+            {watchlist.find((w) => w.movieID === movie?.imdbID) ? (
+                <Button startIcon={<CheckIcon />} onClick={() => removeMovieFromWatchlist(movie?.imdbID || '')}>
+                    <span className="-mb-1">In Watchlist</span>
+                </Button>
+            ) : (
+                <Button startIcon={<PlusIcon />} onClick={() => addMovieToWatchlist(movie?.imdbID || '')}>
+                    <span className="-mb-1">Add to Watchlist</span>
+                </Button>
+            )}
             {movie?.Metascore && (
                 <div className="flex flex-row justify-center items-center gap-1 mb-4 hover:cursor-pointer">
                     <span
@@ -172,6 +199,8 @@ export default function Title() {
                 onClose={handleClose}
                 title={movie?.Title || ''}
                 movieID={movie?.imdbID || ''}
+                rating={value}
+                setRating={setValue}
             />
         </div>
     );
