@@ -71,7 +71,7 @@ export async function signOutFromGoogle() {
 
 export async function getWatchlist(userID: string) {
     try {
-        const response = await fetch(`https://movie-base-backend-production.up.railway.app/user/:${userID}/watchlist`, {
+        const response = await fetch(`https://movie-base-backend-production.up.railway.app/user/${userID}/watchlist`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -86,7 +86,7 @@ export async function getWatchlist(userID: string) {
 }
 
 export async function postWatchlist(id: string, userID: string, movieID: string) {
-    await fetch(`https://movie-base-backend-production.up.railway.app/user/:${userID}/watchlist`, {
+    await fetch(`https://movie-base-backend-production.up.railway.app/user/${userID}/watchlist`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -96,7 +96,7 @@ export async function postWatchlist(id: string, userID: string, movieID: string)
 }
 
 export async function deleteWatchlist(id: string, userID: string) {
-    await fetch(`https://movie-base-backend-production.up.railway.app/user/:${userID}/watchlist`, {
+    await fetch(`https://movie-base-backend-production.up.railway.app/user/${userID}/watchlist`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
@@ -105,9 +105,25 @@ export async function deleteWatchlist(id: string, userID: string) {
     });
 }
 
+export async function getTitleInfo(movieID: string, userID: string) {
+    try {
+        const response = await fetch(`https://movie-base-backend-production.up.railway.app/title/${movieID}?userID=${userID}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        const data = await response.json();
+
+        return data;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 export async function getRatings(userID: string) {
     try {
-        const response = await fetch(`https://movie-base-backend-production.up.railway.app/user/:${userID}/ratings`, {
+        const response = await fetch(`https://movie-base-backend-production.up.railway.app/user/${userID}/ratings`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -122,7 +138,7 @@ export async function getRatings(userID: string) {
 }
 
 export async function postRating(id: string, userID: string, movieID: string, rating: number) {
-    await fetch(`https://movie-base-backend-production.up.railway.app/user/:${userID}/watchlist`, {
+    await fetch(`https://movie-base-backend-production.up.railway.app/user/${userID}/watchlist`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -133,7 +149,7 @@ export async function postRating(id: string, userID: string, movieID: string, ra
 
 export async function patchRatings(userID: string, rating: number) {
     try {
-        const response = await fetch(`https://movie-base-backend-production.up.railway.app/user/:${userID}/ratings`, {
+        const response = await fetch(`https://movie-base-backend-production.up.railway.app/user/${userID}/ratings`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -149,7 +165,7 @@ export async function patchRatings(userID: string, rating: number) {
 }
 
 export async function deleteRating(id: string, userID: string) {
-    await fetch(`https://movie-base-backend-production.up.railway.app/user/:${userID}/rating`, {
+    await fetch(`https://movie-base-backend-production.up.railway.app/user/${userID}/rating`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
