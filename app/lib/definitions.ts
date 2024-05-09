@@ -30,3 +30,16 @@ export type User = {
     email: string;
     image: string;
 };
+
+export type Watchlist = {
+    id: string;
+    userID: string;
+    movieID: string;
+};
+
+export type Rating = {
+    id: string;
+    userID: string;
+    movieID: string;
+    rating: number;
+};
