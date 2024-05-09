@@ -138,7 +138,7 @@ export async function getRatings(userID: string) {
 }
 
 export async function postRating(id: string, userID: string, movieID: string, rating: number) {
-    await fetch(`https://movie-base-backend-production.up.railway.app/user/${userID}/watchlist`, {
+    await fetch(`https://movie-base-backend-production.up.railway.app/user/${userID}/ratings`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
