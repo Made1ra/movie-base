@@ -1,3 +1,6 @@
+import { type ClassValue, clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+
 export const convertToHoursAndMinutes = (min: string) => {
     const minutes = Number.parseInt(min, 10);
 
@@ -31,4 +34,8 @@ export const formatNumber = (str: string) => {
     }
 
     return str;
+};
+
+export const cn = (...inputs: ClassValue[]) => {
+    return twMerge(clsx(inputs));
 };
