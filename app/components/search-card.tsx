@@ -6,9 +6,10 @@ import { Card, Typography } from '@mui/material';
 function SearchCard({ imdbID, Poster, Title, Year }: { imdbID: string, Poster: string, Title: string, Year: string }) {
     return (
         <Link href={`/title/${imdbID}`}>
-            <Card className="flex flex-col justify-center items-center mb-4 w-96 p-2 rounded shadow border
+            <Card className="flex flex-col justify-center items-center mb-4 w-96 p-2 rounded-lg shadow-lg border
                             hover:border-blue-400
-                            active:border-blue-400 active:border-dashed">
+                            active:border-blue-400 active:border-dashed
+                            dark:shadow-none">
                 {Poster === 'N/A' ? (
                     <Typography>No poster available</Typography>
                 ) : (
