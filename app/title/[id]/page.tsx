@@ -118,7 +118,7 @@ export default function Title() {
                 {movie?.Poster && (
                     <Image
                         src={movie?.Poster}
-                        alt={movie?.Title || ''}
+                        alt={movie?.Title || 'Movie Poster'}
                         fill
                         sizes="100%"
                         priority
