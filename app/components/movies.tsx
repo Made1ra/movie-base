@@ -4,7 +4,7 @@ import { memo, useState, useEffect } from 'react';
 import { Typography } from '@mui/material';
 import { Movie } from '@/app/lib/definitions';
 import { getMovies } from '@/app/lib/actions';
-import MovieCard from '@/app/components/movie-card';
+import SearchCard from '@/app/components/search-card';
 
 function Movies({ query }: { query: string }) {
     const [movies, setMovies] = useState<Array<Movie>>([]);
@@ -23,7 +23,7 @@ function Movies({ query }: { query: string }) {
             {movies && (
                 <div className="flex flex-col justify-center items-center m-4">
                     {movies.map((movie: Movie) => (
-                        <MovieCard
+                        <SearchCard
                             key={movie.imdbID}
                             imdbID={movie.imdbID}
                             Poster={movie.Poster}
