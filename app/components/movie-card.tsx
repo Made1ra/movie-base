@@ -28,7 +28,7 @@ function MovieCard({
     actors: string;
 }) {
     return (
-        <Card className="w-full max-w-sm rounded-lg overflow-hidden shadow-lg mt-10 mx-8
+        <Card className="w-full max-w-sm rounded-lg overflow-hidden shadow-xl mt-10 mx-8
         hover:border-blue-400
         active:border-blue-400 active:border-dashed
         dark:shadow-none">
