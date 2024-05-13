@@ -8,12 +8,22 @@ import { getWatchlist, getMovie } from '@/app/lib/actions';
 import { useUserStore } from '@/app/stores/user-store';
 import BackButton from '@/app/components/back-button';
 import AccountMenu from '@/app/components/account-menu';
+import { Badge } from '@/app/components/badge';
+import ChevronUpIcon from '@/app/components/chevron-up-icon';
 import MovieCard from '@/app/components/movie-card';
 
 export default function Watchlist() {
     const { id } = useParams();
     const { user } = useUserStore((state) => state);
     const [watchlistMovies, setWatchlistMovies] = useState<Movie[]>([]);
+    const [showBackToTop, setShowBackToTop] = useState(false);
+
+    function scrollToTop() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth',
+        });
+    }
 
     useEffect(() => {
         async function fetchWatchlist() {
@@ -28,11 +38,37 @@ export default function Watchlist() {
         fetchWatchlist();
     }, [id]);
 
+    useEffect(() => {
+        function handleScroll() {
+            if (window.scrollY > 100) {
+                setShowBackToTop(true);
+            } else {
+                setShowBackToTop(false);
+            }
+        }
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
     return (
         <div>
             <div className="absolute top-8 left-8">
                 <BackButton />
             </div>
+            {showBackToTop && (
+                <Badge
+                    onClick={scrollToTop}
+                    className="z-10 fixed top-4 left-[55rem] px-2 py-1 bg-neutral-50 text-black rounded-xl cursor-pointer shadow-xl text-base
+                    hover:bg-neutral-300 hover:text-black"
+                >
+                    <ChevronUpIcon className="w-6 h-6 mr-2" />
+                    Back to top
+                </Badge>
+            )}
             <div className="flex flex-col items-center justify-center mb-8">
                 {watchlistMovies.map((movie: Movie) => (
                     <Link
