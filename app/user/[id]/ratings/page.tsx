@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { Movie, Rating } from '@/app/lib/definitions';
@@ -18,12 +18,12 @@ export default function Ratings() {
     const [ratings, setRatings] = useState<Movie[]>([]);
     const [showBackToTop, setShowBackToTop] = useState(false);
 
-    function scrollToTop() {
+    const scrollToTop = useCallback(() => {
         window.scrollTo({
             top: 0,
             behavior: 'smooth',
         });
-    }
+    }, []);
 
     useEffect(() => {
         async function fetchRatings() {
