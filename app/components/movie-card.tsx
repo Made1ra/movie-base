@@ -33,11 +33,13 @@ function MovieCard({
         active:border-blue-400 active:border-dashed
         dark:shadow-none">
             <div className="relative">
-                <div className="relative w-[31.25rem] h-[18.75rem]">
+                <div className="relative w-full">
                     <Image
                         src={poster}
                         alt={title || 'Movie Poster'}
-                        fill
+                        layout="responsive"
+                        width={500}
+                        height={750}
                         sizes="100%"
                         priority
                     />

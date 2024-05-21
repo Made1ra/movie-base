@@ -13,11 +13,13 @@ function SearchCard({ imdbID, Poster, Title, Year }: { imdbID: string, Poster: s
                 {Poster === 'N/A' ? (
                     <Typography>No poster available</Typography>
                 ) : (
-                    <div className="relative w-80 h-80">
+                    <div className="relative w-full">
                         <Image
                             src={Poster}
                             alt={Title || ''}
-                            fill
+                            layout="responsive"
+                            width={500}
+                            height={750}
                             sizes="100%"
                             priority
                             className="rounded-sm shadow"
