@@ -3,8 +3,8 @@ import Image from 'next/image';
 import { convertToHoursAndMinutes } from '@/app/lib/utils';
 import { Separator } from '@/app/components/separator';
 import { CardContent, Card } from '@/app/components/card'
-import CameraIcon from '@/app/components/camera-icon';
-import StarIcon from '@/app/components/star-icon';
+import CameraIcon from '@/app/components/icons/camera-icon';
+import StarIcon from '@/app/components/icons/star-icon';
 
 function MovieCard({
     poster,

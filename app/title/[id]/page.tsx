@@ -13,11 +13,11 @@ import { useWatchlistStore } from '@/app/stores/watchlist-store';
 import { useRatingsStore } from '@/app/stores/ratings-store';
 import BackButton from '@/app/components/back-button';
 import AccountMenu from '@/app/components/account-menu';
-import StarIcon from '@/app/components/star-icon';
+import StarIcon from '@/app/components/icons/star-icon';
 import ModalRating from '@/app/components/modal-rating';
-import ChevronRightIcon from '@/app/components/chevron-right-icon';
-import CheckIcon from '@/app/components/check-icon';
-import PlusIcon from '@/app/components/plus-icon';
+import ChevronRightIcon from '@/app/components/icons/chevron-right-icon';
+import CheckIcon from '@/app/components/icons/check-icon';
+import PlusIcon from '@/app/components/icons/plus-icon';
 
 export default function Title() {
     const [movie, setMovie] = useState<Movie | null>(null);

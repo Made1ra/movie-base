@@ -9,7 +9,7 @@ import { useUserStore } from '@/app/stores/user-store';
 import BackButton from '@/app/components/back-button';
 import AccountMenu from '@/app/components/account-menu';
 import { Badge } from '@/app/components/badge';
-import ChevronUpIcon from '@/app/components/chevron-up-icon';
+import ChevronUpIcon from '@/app/components/icons/chevron-up-icon';
 import MovieCard from '@/app/components/movie-card';
 
 export default function Ratings() {

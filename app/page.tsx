@@ -10,7 +10,7 @@ import BackButton from '@/app/components/back-button';
 import AccountMenu from '@/app/components/account-menu';
 import Search from '@/app/components/search';
 import { Badge } from '@/app/components/badge';
-import ChevronUpIcon from '@/app/components/chevron-up-icon';
+import ChevronUpIcon from '@/app/components/icons/chevron-up-icon';
 import Movies from '@/app/components/movies';
 
 export default function Home({

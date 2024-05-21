@@ -6,7 +6,7 @@ import { Modal, Box, Typography, Rating, Button } from '@mui/material';
 import { postRating, deleteRating } from '@/app/lib/actions';
 import { useUserStore } from '@/app/stores/user-store';
 import { useRatingsStore } from '@/app/stores/ratings-store';
-import StarIcon from '@/app/components/star-icon';
+import StarIcon from '@/app/components/icons/star-icon';
 
 function ModalRating({
     open,

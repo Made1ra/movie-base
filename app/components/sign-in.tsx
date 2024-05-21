@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { Typography, Button } from '@mui/material';
 import { signInToGoogle } from '@/app/lib/actions';
-import GoogleIcon from '@/app/components/google-icon';
+import GoogleIcon from '@/app/components/icons/google-icon';
 
 function SignIn() {
     return (

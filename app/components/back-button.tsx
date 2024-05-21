@@ -3,7 +3,7 @@
 import { memo } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@mui/material';
-import ArrowLeftIcon from '@/app/components/arrow-left-icon';
+import ArrowLeftIcon from '@/app/components/icons/arrow-left-icon';
 
 function BackButton() {
     const router = useRouter();
