@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
+import { InputLabel, Select, MenuItem, Button, SelectChangeEvent } from '@mui/material';
 import type { Movie, Watchlist } from '@/app/lib/definitions';
 import { getWatchlist, getMovie } from '@/app/lib/actions';
 import { useUserStore } from '@/app/stores/user-store';
@@ -10,6 +11,7 @@ import BackButton from '@/app/components/back-button';
 import AccountMenu from '@/app/components/account-menu';
 import { Badge } from '@/app/components/badge';
 import ChevronUpIcon from '@/app/components/icons/chevron-up-icon';
+import ArrowsUpDownIcon from '@/app/components/icons/arrows-up-down-icon';
 import MovieCard from '@/app/components/movie-card';
 
 export default function Watchlist() {
@@ -17,6 +19,78 @@ export default function Watchlist() {
     const { user } = useUserStore((state) => state);
     const [watchlistMovies, setWatchlistMovies] = useState<Movie[]>([]);
     const [showBackToTop, setShowBackToTop] = useState(false);
+    const [sortOrder, setSortOrder] = useState<'desc' | 'asc'>('desc');
+    const [value, setValue] = useState('Alphabetical');
+
+    function handleChange(event: SelectChangeEvent) {
+        const newValue = event.target.value;
+        setValue(newValue);
+        setSortOrder('desc');
+        sortMovies(newValue, 'desc');
+    }
+
+    function toggleSortOrder() {
+        const newSortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
+        setSortOrder(newSortOrder);
+        sortMovies(value, newSortOrder);
+    }
+
+    function sortMovies(sortType: string, sortOrder: 'asc' | 'desc') {
+        switch (sortType) {
+            case 'Alphabetical':
+                sortByAlphabet(sortOrder);
+                break;
+            case 'IMDb rating':
+                sortByIMDbRating(sortOrder);
+                break;
+            case 'Number of ratings':
+                sortByIMDbVotes(sortOrder);
+                break;
+            case 'Release date':
+                sortByReleaseDate(sortOrder);
+                break;
+            case 'Runtime':
+                sortByRuntime(sortOrder);
+                break;
+            default:
+                break;
+        }
+    }
+
+    function sortByAlphabet(order: 'asc' | 'desc') {
+        setWatchlistMovies(order === 'asc'
+            ? watchlistMovies.toSorted((a, b) => a.Title.localeCompare(b.Title))
+            : watchlistMovies.toSorted((a, b) => b.Title.localeCompare(a.Title))
+        );
+    }
+
+    function sortByIMDbRating(order: 'asc' | 'desc') {
+        setWatchlistMovies(order === 'asc'
+            ? watchlistMovies.toSorted((a, b) => +a.imdbRating - +b.imdbRating)
+            : watchlistMovies.toSorted((a, b) => +b.imdbRating - +a.imdbRating)
+        );
+    }
+
+    function sortByIMDbVotes(order: 'asc' | 'desc') {
+        setWatchlistMovies(order === 'asc'
+            ? watchlistMovies.toSorted((a, b) => +a.imdbVotes.replace(/,/g, '') - +b.imdbVotes.replace(/,/g, ''))
+            : watchlistMovies.toSorted((a, b) => +b.imdbVotes.replace(/,/g, '') - +a.imdbVotes.replace(/,/g, ''))
+        );
+    }
+
+    function sortByReleaseDate(order: 'asc' | 'desc') {
+        setWatchlistMovies(order === 'asc'
+            ? watchlistMovies.toSorted((a, b) => +a.Year - +b.Year)
+            : watchlistMovies.toSorted((a, b) => +b.Year - +a.Year)
+        );
+    }
+
+    function sortByRuntime(order: 'asc' | 'desc') {
+        setWatchlistMovies(order === 'asc'
+            ? watchlistMovies.toSorted((a, b) => +a.Runtime.split(' ')[0] - +b.Runtime.split(' ')[0])
+            : watchlistMovies.toSorted((a, b) => +b.Runtime.split(' ')[0] - +a.Runtime.split(' ')[0])
+        );
+    }
 
     const scrollToTop = useCallback(() => {
         window.scrollTo({
@@ -69,6 +143,23 @@ export default function Watchlist() {
                     Back to top
                 </Badge>
             )}
+            <div className="flex items-center justify-center -mb-8">
+                <InputLabel>Sort by</InputLabel>
+                <Select
+                    value={value}
+                    onChange={handleChange}
+                    className="m-2"
+                >
+                    <MenuItem value="Alphabetical">Alphabetical</MenuItem>
+                    <MenuItem value="IMDb rating">IMDb rating</MenuItem>
+                    <MenuItem value="Number of ratings">Number of ratings</MenuItem>
+                    <MenuItem value="Release date">Release date</MenuItem>
+                    <MenuItem value="Runtime">Runtime</MenuItem>
+                </Select>
+                <Button onClick={toggleSortOrder}>
+                    <ArrowsUpDownIcon />
+                </Button>
+            </div>
             <div className="flex flex-col items-center justify-center mb-8">
                 {watchlistMovies.map((movie: Movie) => (
                     <Link
