@@ -16,7 +16,7 @@ function ChevronRightIcon({ className }: { className?: string }) {
         >
             <path d="m9 18 6-6-6-6" />
         </svg>
-    )
+    );
 }
 
 export default memo(ChevronRightIcon);
