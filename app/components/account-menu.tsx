@@ -8,7 +8,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import { ListItemIcon } from '@mui/material';
-import MovieIcon from '@/app/components/movie-icon';
+import MovieIcon from '@/app/components/icons/movie-icon';
 import SignOut from '@/app/components/sign-out';
 
 function AccountMenu({ image, name, id }: { image?: string; name?: string; id?: string; }) {
