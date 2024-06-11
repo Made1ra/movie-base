@@ -7,6 +7,10 @@ export async function authorizeUser() {
     try {
         let id = '';
         const session = await auth();
+        if (!session) {
+            return null;
+        }
+        
         const userEmail = session?.user?.email || '';
         const userName = session?.user?.name || 'Anonymous';
         const userImage = session?.user?.image || '';
