@@ -7,24 +7,46 @@ export async function authorizeUser() {
     try {
         let id = '';
         const session = await auth();
-        const response = await fetch(`https://movie-base-backend-production.up.railway.app/?email=${encodeURIComponent(session?.user?.email || '')}`, {
+        const userEmail = session?.user?.email || '';
+        const userName = session?.user?.name || 'Anonymous';
+        const userImage = session?.user?.image || '';
+
+        const response = await fetch(`https://movie-base-backend-production.up.railway.app/?email=${encodeURIComponent(userEmail)}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
             },
         });
-        if (response.ok) {
-            const data = await response.json();
-            id = data.id;
+
+        const responseBody = await response.text();
+
+        if (responseBody.length > 0) {
+            try {
+                const data = JSON.parse(responseBody);
+                id = data.id;
+            } catch (jsonError) {
+                console.error('Error parsing JSON:', jsonError);
+                id = bcrypt.hashSync(userEmail, 0).slice(-10);
+            }
         } else {
-            id = bcrypt.hashSync(session?.user?.email || '', 0).slice(-10);
-            await fetch('https://movie-base-backend-production.up.railway.app/', {
+            id = bcrypt.hashSync(userEmail, 0).slice(-10);
+            const newUserResponse = await fetch('https://movie-base-backend-production.up.railway.app/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ id, name: session?.user?.name, email: session?.user?.email, image: session?.user?.image }),
+                body: JSON.stringify({
+                    id,
+                    name: userName,
+                    email: userEmail,
+                    image: userImage,
+                }),
             });
+
+            if (!newUserResponse.ok) {
+                console.error('Error creating new user:', await newUserResponse.text());
+                return null;
+            }
         }
 
         if (session?.user) {
@@ -33,7 +55,8 @@ export async function authorizeUser() {
 
         return session;
     } catch (error) {
-        console.error(error);
+        console.error('Error authorizing user:', error);
+        return null;
     }
 }
 
