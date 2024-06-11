@@ -114,12 +114,13 @@ export default function Title() {
                     </div>
                 </div>
             </div>
-            <div className="relative w-80 h-96 my-2">
+            <div className="relative w-full my-2 flex items-center justify-center">
                 {movie?.Poster && (
                     <Image
                         src={movie?.Poster}
                         alt={movie?.Title || 'Movie Poster'}
-                        fill
+                        width={300}
+                        height={450}
                         sizes="100%"
                         priority
                         className="rounded-sm"
