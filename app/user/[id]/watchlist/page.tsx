@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
-import { InputLabel, Select, MenuItem, Button, SelectChangeEvent } from '@mui/material';
+import { InputLabel, Select, MenuItem, Button, SelectChangeEvent, Typography, Box } from '@mui/material';
 import type { Movie, Watchlist } from '@/app/lib/definitions';
 import { getWatchlist, getMovie } from '@/app/lib/actions';
 import { useUserStore } from '@/app/stores/user-store';
@@ -181,24 +181,37 @@ export default function Watchlist() {
                 </Button>
             </div>
             <div className="flex flex-col items-center justify-center mb-8">
-                {filteredMovies.map((movie: Movie) => (
-                    <Link
-                        href={`/title/${movie.imdbID}`}
-                        key={movie.imdbID}
-                    >
-                        <MovieCard
-                            poster={movie.Poster}
-                            title={movie.Title}
-                            imdbRating={movie.imdbRating}
-                            year={movie.Year}
-                            rated={movie.Rated}
-                            runtime={movie.Runtime}
-                            plot={movie.Plot}
-                            director={movie.Director}
-                            actors={movie.Actors}
-                        />
-                    </Link>
-                ))}
+                {filteredMovies ? (
+                    <>
+                        <Box className="mt-6 -mb-10">
+                            <Typography variant="subtitle1">
+                                {`${filteredMovies.length === 1 ? '1 title' : `${filteredMovies.length} titles`}`}
+                            </Typography>
+                        </Box>
+                        {filteredMovies.map((movie: Movie) => (
+                            <Link
+                                href={`/title/${movie.imdbID}`}
+                                key={movie.imdbID}
+                            >
+                                <MovieCard
+                                    poster={movie.Poster}
+                                    title={movie.Title}
+                                    imdbRating={movie.imdbRating}
+                                    year={movie.Year}
+                                    rated={movie.Rated}
+                                    runtime={movie.Runtime}
+                                    plot={movie.Plot}
+                                    director={movie.Director}
+                                    actors={movie.Actors}
+                                />
+                            </Link>
+                        ))}
+                    </>
+                ) : (
+                    <Typography variant="h6" gutterBottom>
+                        No movies found
+                    </Typography>
+                )}
             </div>
             <AccountMenu
                 image={user?.image}
