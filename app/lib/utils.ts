@@ -1,5 +1,6 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { Movie } from './definitions';
 
 export const convertToHoursAndMinutes = (min: string) => {
     const minutes = Number.parseInt(min, 10);
@@ -38,4 +39,33 @@ export const formatNumber = (str: string) => {
 
 export const cn = (...inputs: ClassValue[]) => {
     return twMerge(clsx(inputs));
+};
+
+export const getGenres = (movies: Movie[]) => {
+    const genreCounts: { [key: string]: number } = {};
+    movies.forEach((movie) => {
+        movie.Genre.split(', ').forEach((genre) => {
+            if (genreCounts[genre]) {
+                genreCounts[genre]++;
+            } else {
+                genreCounts[genre] = 1;
+            }
+        });
+    });
+
+    return Object.entries(genreCounts).map(([genre, count]) => `${genre} (${count})`);
+};
+
+export const getTypes = (movies: Movie[]) => {
+    const typeCounts: { [key: string]: number } = {};
+    movies.forEach((movie) => {
+        const type = movie.Type.charAt(0).toUpperCase() + movie.Type.slice(1);
+        if (typeCounts[type]) {
+            typeCounts[type]++;
+        } else {
+            typeCounts[type] = 1;
+        }
+    });
+
+    return Object.entries(typeCounts).map(([type, count]) => `${type} (${count})`);
 };
