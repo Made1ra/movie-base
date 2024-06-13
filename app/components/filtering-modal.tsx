@@ -28,22 +28,22 @@ function FilteringModal({
     const [votesTo, setVotesTo] = useState<number | null>(null);
 
     function handleApplyFilters() {
-        const filteredMovies = movies.filter(movie => {
+        const filteredMovies = movies.filter((movie) => {
             const movieGenres = movie.Genre.split(', ');
             const movieType = movie.Type;
             const releaseYear = parseInt(movie.Year);
             const imdbRating = parseFloat(movie.imdbRating);
             const imdbVotes = parseInt(movie.imdbVotes.replace(/,/g, ''));
 
-            const genreMatch = selectedGenres.length === 0 || selectedGenres.some(genre => movieGenres.includes(genre.split(' ')[0]));
-            const typeMatch = selectedTypes.length === 0 || selectedTypes.some(type => type.split(' ')[0].toLowerCase() === movieType.toLowerCase());
+            const genreMatch = selectedGenres.length === 0 || selectedGenres.some((genre) => movieGenres.includes(genre.split(' ')[0]));
+            const typeMatch = selectedTypes.length === 0 || selectedTypes.some((type) => type.split(' ')[0].toLowerCase() === movieType.toLowerCase());
             const releaseYearMatch = (!releaseYearFrom || releaseYear >= releaseYearFrom) && (!releaseYearTo || releaseYear <= releaseYearTo);
             const ratingMatch = (!ratingFrom || imdbRating >= ratingFrom) && (!ratingTo || imdbRating <= ratingTo);
             const votesMatch = (!votesFrom || imdbVotes >= votesFrom) && (!votesTo || imdbVotes <= votesTo);
 
             return genreMatch && typeMatch && releaseYearMatch && ratingMatch && votesMatch;
         });
-        
+
         onApplyFilters(filteredMovies);
         onClose();
     }
