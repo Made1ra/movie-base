@@ -28,7 +28,7 @@ function MovieCard({
     actors: string;
 }) {
     return (
-        <Card className="w-full max-w-sm rounded-lg overflow-hidden shadow-xl mt-10 mx-8
+        <Card className="w-full max-w-sm rounded-lg overflow-hidden shadow-xl mb-8 mx-8
         hover:border-blue-400
         active:border-blue-400 active:border-dashed
         dark:shadow-none">
@@ -37,7 +37,6 @@ function MovieCard({
                     <Image
                         src={poster}
                         alt={title || 'Movie Poster'}
-                        layout="responsive"
                         width={500}
                         height={750}
                         sizes="100%"
