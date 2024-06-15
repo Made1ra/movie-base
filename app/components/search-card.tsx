@@ -17,7 +17,6 @@ function SearchCard({ imdbID, Poster, Title, Year }: { imdbID: string, Poster: s
                         <Image
                             src={Poster}
                             alt={Title || ''}
-                            layout="responsive"
                             width={500}
                             height={750}
                             sizes="100%"
