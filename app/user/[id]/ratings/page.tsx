@@ -39,28 +39,6 @@ export default function Ratings() {
         sortMovies(filteredMovies, value, newSortOrder);
     }
 
-    function sortMovies(movies: Movie[], sortType: string, sortOrder: 'asc' | 'desc') {
-        switch (sortType) {
-            case 'Alphabetical':
-                sortByAlphabet(movies, sortOrder);
-                break;
-            case 'IMDb rating':
-                sortByIMDbRating(movies, sortOrder);
-                break;
-            case 'Number of ratings':
-                sortByIMDbVotes(movies, sortOrder);
-                break;
-            case 'Release date':
-                sortByReleaseDate(movies, sortOrder);
-                break;
-            case 'Runtime':
-                sortByRuntime(movies, sortOrder);
-                break;
-            default:
-                break;
-        }
-    }
-
     function sortByAlphabet(movies: Movie[], order: 'asc' | 'desc') {
         setFilteredMovies(order === 'desc'
             ? movies.toSorted((a, b) => a.Title.localeCompare(b.Title))
@@ -94,6 +72,28 @@ export default function Ratings() {
             ? movies.toSorted((a, b) => +a.Runtime.split(' ')[0] - +b.Runtime.split(' ')[0])
             : movies.toSorted((a, b) => +b.Runtime.split(' ')[0] - +a.Runtime.split(' ')[0])
         );
+    }
+
+    function sortMovies(movies: Movie[], sortType: string, sortOrder: 'asc' | 'desc') {
+        switch (sortType) {
+            case 'Alphabetical':
+                sortByAlphabet(movies, sortOrder);
+                break;
+            case 'IMDb rating':
+                sortByIMDbRating(movies, sortOrder);
+                break;
+            case 'Number of ratings':
+                sortByIMDbVotes(movies, sortOrder);
+                break;
+            case 'Release date':
+                sortByReleaseDate(movies, sortOrder);
+                break;
+            case 'Runtime':
+                sortByRuntime(movies, sortOrder);
+                break;
+            default:
+                break;
+        }
     }
 
     function openModal() {
