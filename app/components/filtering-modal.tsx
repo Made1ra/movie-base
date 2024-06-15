@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, memo } from 'react';
-import { Modal, Box, Button, Chip, TextField, Slider, Typography } from '@mui/material';
+import { Modal, Box, Button, Chip, TextField, Typography } from '@mui/material';
 import { Movie } from '@/app/lib/definitions';
 import { getGenres, getTypes } from '@/app/lib/utils';
 
