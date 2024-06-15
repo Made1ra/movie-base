@@ -24,7 +24,7 @@ function AccountMenu({ image, name, id }: { image?: string; name?: string; id?: 
     }
 
     return (
-        <div className="absolute top-8 right-8">
+        <div className="absolute top-8 right-8 max-sm:top-4">
             <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
                 <IconButton
                     onClick={handleClick}

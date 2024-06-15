@@ -60,7 +60,8 @@ function ModalRating({
             onClose={onClose}
             aria-labelledby="modal-title"
         >
-            <Box className="flex flex-col items-center mt-80 bg-zinc-50 p-4 w-96 rounded shadow absolute left-[47.5rem]">
+            <Box className="flex flex-col items-center mt-80 bg-zinc-50 p-4 w-96 rounded shadow absolute left-[47.5rem]
+            max-sm:mt-80 max-sm:left-4 max-sm:w-72">
                 <StarIcon className="w-12 h-12 -mt-11" />
                 <div className="absolute text-zinc-50 text-lg -top-4">{value ? value : '?'}</div>
                 <button

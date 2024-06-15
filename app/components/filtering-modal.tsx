@@ -152,11 +152,13 @@ const FilteringModal = forwardRef(({
             onClose={onClose}
             aria-labelledby="modal-title"
         >
-            <Box className="flex flex-col items-center mt-20 bg-zinc-50 p-4 w-[26rem] rounded shadow-lg absolute left-[50%] translate-x-[-50%]">
+            <Box className="flex flex-col items-center mt-20 bg-zinc-50 p-4 w-[26rem] rounded shadow-lg absolute left-[50%] translate-x-[-50%]
+            max-sm:w-72">
                 <Button
                     onClick={onClose}
                     className="font-bold text-xl absolute -top-4 left-48 rounded-full
-                    hover:bg-zinc-50"
+                    hover:bg-zinc-50
+                    max-sm:left-32"
                 >
                     X
                 </Button>

@@ -9,7 +9,8 @@ function SearchCard({ imdbID, Poster, Title, Year }: { imdbID: string, Poster: s
             <Card className="flex flex-col justify-center items-center mb-4 w-96 p-2 rounded-lg shadow-xl border
                             hover:border-blue-400
                             active:border-blue-400 active:border-dashed
-                            dark:shadow-none">
+                            dark:shadow-none
+                             max-sm:w-72">
                 {Poster === 'N/A' ? (
                     <Typography>No poster available</Typography>
                 ) : (

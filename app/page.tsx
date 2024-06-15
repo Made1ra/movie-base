@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { Session } from 'next-auth';
-import { Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useUserStore } from '@/app/stores/user-store';
 import { authorizeUser } from '@/app/lib/actions';
 import SignIn from '@/app/components/sign-in';
@@ -70,10 +70,12 @@ export default function Home({
       </div>
       {session?.user ? (
         <>
-          <div className="absolute top-8 left-8">
+          <div className="absolute top-8 left-8 max-sm:top-3 max-sm:left-6">
             <BackButton />
           </div>
-          <AccountMenu image={user?.image} name={user?.name} id={user?.id} />
+          <Box className="max-sm:relative max-sm:-top-24 max-sm:left-40">
+            <AccountMenu image={user?.image} name={user?.name} id={user?.id} />
+          </Box>
           <Search placeholder="Search movies..." />
           {showBackToTop && (
             <Badge

@@ -31,9 +31,10 @@ function MovieCard({
         <Card className="w-full max-w-sm rounded-lg overflow-hidden shadow-xl mb-8 mx-8
         hover:border-blue-400
         active:border-blue-400 active:border-dashed
-        dark:shadow-none">
+        dark:shadow-none
+        max-sm:max-w-72 max-sm:mx-0">
             <div className="relative">
-                <div className="relative w-full">
+                <div className="relative w-full max-sm:flex max-sm:justify-center">
                     <Image
                         src={poster}
                         alt={title || 'Movie Poster'}
@@ -41,9 +42,20 @@ function MovieCard({
                         height={750}
                         sizes="100%"
                         priority
+                        className="max-sm:hidden sm:block"
+                    />
+                    <Image
+                        src={poster}
+                        alt={title || 'Movie Poster'}
+                        width={320}
+                        height={480}
+                        sizes="100%"
+                        priority
+                        className="block sm:hidden"
                     />
                 </div>
-                <div className="flex items-center justify-center absolute top-4 left-4 bg-gray-900 text-white px-2 py-1 rounded-md text-sm font-medium">
+                <div className="flex items-center justify-center absolute top-4 left-4 bg-gray-900 text-white px-2 py-1 rounded-md text-sm font-medium
+                max-sm:top-2 max-sm:left-2">
                     {imdbRating}
                     <StarIcon className="w-4 h-4 inline-block align-middle" />
                 </div>

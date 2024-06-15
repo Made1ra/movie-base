@@ -265,7 +265,7 @@ export default function Watchlist() {
 
     return (
         <div>
-            <div className="absolute top-8 left-8">
+            <div className="absolute top-8 left-8 max-sm:top-4 max-sm:left-0">
                 <BackButton />
             </div>
             {showBackToTop && (
@@ -278,11 +278,13 @@ export default function Watchlist() {
                     Back to top
                 </Badge>
             )}
-            <div className="flex items-center justify-center mt-4 -mb-8">
+            <Box className="flex items-center justify-center mt-4 -mb-8 max-sm:mt-12">
                 <Button onClick={openModal}>
                     <AdjustmentsHorizontalIcon />
                 </Button>
-                <InputLabel>Sort by</InputLabel>
+                <Box className="max-sm:flex max-sm:flex-row max-sm:-mx-1">
+                    <InputLabel>Sort by</InputLabel>
+                </Box>
                 <Select
                     value={value}
                     onChange={handleChange}
@@ -297,7 +299,7 @@ export default function Watchlist() {
                 <Button onClick={toggleSortOrder}>
                     <ArrowsUpDownIcon />
                 </Button>
-            </div>
+            </Box>
             <div className="flex flex-col items-center justify-center">
                 {filteredMovies ? (
                     <>
@@ -391,11 +393,13 @@ export default function Watchlist() {
                     </Typography>
                 )}
             </div>
-            <AccountMenu
-                image={user?.image}
-                name={user?.name}
-                id={user?.id}
-            />
+            <Box className="max-sm:absolute max-sm:left-[21.5rem] max-sm:-top-1">
+                <AccountMenu
+                    image={user?.image}
+                    name={user?.name}
+                    id={user?.id}
+                />
+            </Box>
             <FilteringModal
                 ref={filteringModalRef}
                 open={isModalOpen}

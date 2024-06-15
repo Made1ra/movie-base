@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Image from 'next/image';
 import { nanoid } from 'nanoid';
-import { Typography, Chip, Divider, List, ListItem, ListItemText, Button } from '@mui/material';
+import { Typography, Chip, Divider, List, ListItem, ListItemText, Button, Box } from '@mui/material';
 import { Movie } from '@/app/lib/definitions';
 import { getMovie, getTitleInfo, postWatchlist, deleteWatchlist } from '@/app/lib/actions';
 import { convertToHoursAndMinutes, formatNumber } from '@/app/lib/utils';
@@ -77,10 +77,12 @@ export default function Title() {
 
     return (
         <div className="flex flex-col justify-center items-center min-h-screen">
-            <div className="absolute top-8 left-8">
+            <div className="absolute top-8 left-8 max-sm:top-[3.75rem] max-sm:left-0">
                 <BackButton />
             </div>
-            <AccountMenu image={user?.image} name={user?.name} id={user?.id} />
+            <Box className="max-sm:relative max-sm:left-44 max-sm:top-10">
+                <AccountMenu image={user?.image} name={user?.name} id={user?.id} />
+            </Box>
             <div className="flex flex-col gap-2">
                 <Typography variant="h3">{movie?.Title}</Typography>
                 <ul className="flex flex-row justify-center items-center gap-8">
@@ -134,27 +136,36 @@ export default function Title() {
                         <Chip key={index} label={genre} variant="outlined" />
                     ))}
             </div>
-            <Typography variant="h5" className="max-w-96">{movie?.Plot}</Typography>
-            <Divider />
+            <Typography variant="h5" className="max-w-96 max-sm:w-72">{movie?.Plot}</Typography>
+            <Box className="w-[25rem] max-sm:flex max-sm:items-center max-sm:justify-center">
+                <Divider className="max-sm:w-72" />
+            </Box>
             <List>
                 <ListItem className="gap-4">
                     <ListItemText primary="Director" />
                     <ListItemText secondary={movie?.Director} />
                 </ListItem>
-                <Divider />
+                <Box className="max-sm:flex max-sm:items-center max-sm:justify-center">
+                    <Divider className="max-sm:w-72" />
+                </Box>
                 <ListItem className="gap-4">
                     <ListItemText primary="Writer" />
                     <ListItemText secondary={movie?.Writer} />
                 </ListItem>
-                <Divider />
+                <Box className="max-sm:flex max-sm:items-center max-sm:justify-center">
+                    <Divider className="max-sm:w-72" />
+                </Box>
                 <ListItem className="gap-4">
                     <ListItemText primary="Actors" />
                     <ListItemText secondary={movie?.Actors} />
                 </ListItem>
-                <Divider />
+                <Box className="max-sm:flex max-sm:items-center max-sm:justify-center">
+                    <Divider className="max-sm:w-72" />
+                </Box>
             </List>
             {movie?.Awards !== 'N/A' && (
-                <div className="bg-amber-400 flex justify-between items-center p-4 rounded">
+                <Box className="bg-amber-400 flex justify-between items-center p-4 rounded
+                max-sm:w-72">
                     <div className="flex justify-center items-center space-x-4">
                         {movie?.Awards
                             .split('.')
@@ -171,7 +182,7 @@ export default function Title() {
                             ))}
                     </div>
                     <ChevronRightIcon className="text-black ml-4 hover:cursor-pointer" />
-                </div>
+                </Box>
             )}
             {watchlist.find((w) => w.movieID === movie?.imdbID) ? (
                 <Button startIcon={<CheckIcon />} onClick={() => removeMovieFromWatchlist(movie?.imdbID || '')}>
