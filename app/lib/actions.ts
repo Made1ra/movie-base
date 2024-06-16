@@ -192,11 +192,15 @@ export async function patchRatings(id: string, userID: string, rating: number) {
 }
 
 export async function deleteRating(id: string, userID: string) {
-    await fetch(`https://movie-base-backend-production.up.railway.app/user/${userID}/rating`, {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ id: id }),
-    });
+    try {
+        await fetch(`https://movie-base-backend-production.up.railway.app/user/${userID}/ratings`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ id: id }),
+        });
+    } catch (error) {
+        console.error(error);
+    }
 }

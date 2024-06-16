@@ -38,7 +38,7 @@ function ModalRating({
         if (value) {
             addRating(nanoid(), user?.id || '', movieID, value);
             postRating(nanoid(), user?.id || '', movieID, value);
-            patchRatings(user?.id || '', movieID, value);
+            patchRatings(movieID, user?.id || '', value);
             setRating(value);
             onClose();
         }
