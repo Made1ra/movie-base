@@ -3,7 +3,7 @@
 import { useState, memo, SyntheticEvent } from 'react';
 import { nanoid } from 'nanoid';
 import { Modal, Box, Typography, Rating, Button } from '@mui/material';
-import { postRating, deleteRating } from '@/app/lib/actions';
+import { postRating, patchRatings, deleteRating } from '@/app/lib/actions';
 import { useUserStore } from '@/app/stores/user-store';
 import { useRatingsStore } from '@/app/stores/ratings-store';
 import StarIcon from '@/app/components/icons/star-icon';
@@ -38,6 +38,7 @@ function ModalRating({
         if (value) {
             addRating(nanoid(), user?.id || '', movieID, value);
             postRating(nanoid(), user?.id || '', movieID, value);
+            patchRatings(user?.id || '', movieID, value);
             setRating(value);
             onClose();
         }
