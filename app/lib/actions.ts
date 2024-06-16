@@ -10,7 +10,7 @@ export async function authorizeUser() {
         if (!session) {
             return null;
         }
-        
+
         const userEmail = session?.user?.email || '';
         const userName = session?.user?.name || 'Anonymous';
         const userImage = session?.user?.image || '';
@@ -174,14 +174,14 @@ export async function postRating(id: string, userID: string, movieID: string, ra
     });
 }
 
-export async function patchRatings(userID: string, rating: number) {
+export async function patchRatings(id: string, userID: string, rating: number) {
     try {
         const response = await fetch(`https://movie-base-backend-production.up.railway.app/user/${userID}/ratings`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ rating: rating }),
+            body: JSON.stringify({ id: id, rating: rating }),
         });
         const data = await response.json();
 
