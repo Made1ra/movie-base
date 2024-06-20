@@ -112,7 +112,9 @@ export default function Title() {
         <AccountMenu image={user?.image} name={user?.name} id={user?.id} />
       </Box>
       <div className="flex flex-col gap-2">
-        <Typography variant="h3">{movie?.Title}</Typography>
+        <Box className="flex justify-center">
+          <Typography variant="h3">{movie?.Title}</Typography>
+        </Box>
         <ul className="flex flex-row justify-center items-center gap-8">
           <li>
             <Typography variant="body2">{movie?.Year}</Typography>

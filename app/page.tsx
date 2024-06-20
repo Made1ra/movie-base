@@ -85,7 +85,7 @@ export default function Home({
           {showBackToTop && (
             <Badge
               onClick={scrollToTop}
-              className="z-10 fixed top-4 left-[55rem] px-2 py-1 bg-neutral-50 text-black rounded-xl cursor-pointer shadow-xl text-base
+              className="z-10 fixed top-4 px-2 py-1 bg-neutral-50 text-black rounded-xl cursor-pointer shadow-xl text-base
                     hover:bg-neutral-300 hover:text-black"
             >
               <ChevronUpIcon className="w-6 h-6 mr-2" />
