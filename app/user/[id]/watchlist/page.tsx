@@ -1,7 +1,12 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
-import { useParams } from "next/navigation";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
+import {
+  useParams,
+  useSearchParams,
+  usePathname,
+  useRouter,
+} from "next/navigation";
 import Link from "next/link";
 import {
   InputLabel,
@@ -27,12 +32,26 @@ import FilteringModal from "@/app/components/filtering-modal";
 
 export default function Watchlist() {
   const { id } = useParams();
+
   const { user } = useUserStore((state) => state);
+
+  const searchParams = useSearchParams();
+  const params = useMemo(
+    () => new URLSearchParams(searchParams),
+    [searchParams]
+  );
+  const pathname = usePathname();
+  const { replace } = useRouter();
+
   const [watchlistMovies, setWatchlistMovies] = useState<Movie[]>([]);
   const [filteredMovies, setFilteredMovies] = useState<Movie[]>([]);
   const [showBackToTop, setShowBackToTop] = useState(false);
-  const [sortOrder, setSortOrder] = useState<"desc" | "asc">("desc");
-  const [value, setValue] = useState("Alphabetical");
+  const [sortOrder, setSortOrder] = useState<"desc" | "asc">(
+    (params.get("order") as "desc" | "asc") || "desc"
+  );
+  const [value, setValue] = useState<string>(
+    params.get("sort") || "Alphabetical"
+  );
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [genres, setGenres] = useState<string[]>([]);
   const [types, setTypes] = useState<string[]>([]);
@@ -108,31 +127,30 @@ export default function Watchlist() {
     );
   }
 
-  function sortMovies(
-    movies: Movie[],
-    sortType: string,
-    sortOrder: "asc" | "desc"
-  ) {
-    switch (sortType) {
-      case "Alphabetical":
-        sortByAlphabet(movies, sortOrder);
-        break;
-      case "IMDb rating":
-        sortByIMDbRating(movies, sortOrder);
-        break;
-      case "Number of ratings":
-        sortByIMDbVotes(movies, sortOrder);
-        break;
-      case "Release date":
-        sortByReleaseDate(movies, sortOrder);
-        break;
-      case "Runtime":
-        sortByRuntime(movies, sortOrder);
-        break;
-      default:
-        break;
-    }
-  }
+  const sortMovies = useCallback(
+    (movies: Movie[], sortType: string, sortOrder: "asc" | "desc") => {
+      switch (sortType) {
+        case "Alphabetical":
+          sortByAlphabet(movies, sortOrder);
+          break;
+        case "IMDb rating":
+          sortByIMDbRating(movies, sortOrder);
+          break;
+        case "Number of ratings":
+          sortByIMDbVotes(movies, sortOrder);
+          break;
+        case "Release date":
+          sortByReleaseDate(movies, sortOrder);
+          break;
+        case "Runtime":
+          sortByRuntime(movies, sortOrder);
+          break;
+        default:
+          break;
+      }
+    },
+    []
+  );
 
   function openModal() {
     setIsModalOpen(true);
@@ -286,10 +304,11 @@ export default function Watchlist() {
       );
       setWatchlistMovies(movies);
       setFilteredMovies(movies);
+      sortMovies(movies, value, sortOrder);
     }
 
     fetchWatchlist();
-  }, [id]);
+  }, [id, value, sortOrder, sortMovies]);
 
   useEffect(() => {
     function handleScroll() {
@@ -306,6 +325,12 @@ export default function Watchlist() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  useEffect(() => {
+    params.set("sort", value);
+    params.set("order", sortOrder);
+    replace(`${pathname}?${params.toString()}`);
+  }, [value, sortOrder, searchParams, replace, pathname, params]);
 
   return (
     <div>
