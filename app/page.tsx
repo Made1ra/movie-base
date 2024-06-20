@@ -1,27 +1,27 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useCallback } from 'react';
-import { Session } from 'next-auth';
-import { Box, Typography } from '@mui/material';
-import { useUserStore } from '@/app/stores/user-store';
-import { authorizeUser } from '@/app/lib/actions';
-import SignIn from '@/app/components/sign-in';
-import BackButton from '@/app/components/back-button';
-import AccountMenu from '@/app/components/account-menu';
-import Search from '@/app/components/search';
-import { Badge } from '@/app/components/badge';
-import ChevronUpIcon from '@/app/components/icons/chevron-up-icon';
-import Movies from '@/app/components/movies';
+import { useState, useEffect, useCallback } from "react";
+import { Session } from "next-auth";
+import { Box, Typography } from "@mui/material";
+import { useUserStore } from "@/app/stores/user-store";
+import { authorizeUser } from "@/app/lib/actions";
+import SignIn from "@/app/components/sign-in";
+import BackButton from "@/app/components/back-button";
+import AccountMenu from "@/app/components/account-menu";
+import Search from "@/app/components/search";
+import { Badge } from "@/app/components/badge";
+import ChevronUpIcon from "@/app/components/icons/chevron-up-icon";
+import Movies from "@/app/components/movies";
 
 export default function Home({
-  searchParams
+  searchParams,
 }: {
   searchParams?: {
     query?: string;
     page?: string;
   };
 }) {
-  const query = searchParams?.query || '';
+  const query = searchParams?.query || "";
 
   const [session, setSession] = useState<Session | null | undefined>(null);
   const [showBackToTop, setShowBackToTop] = useState(false);
@@ -31,7 +31,7 @@ export default function Home({
   const scrollToTop = useCallback(() => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth',
+      behavior: "smooth",
     });
   }, []);
 
@@ -40,7 +40,12 @@ export default function Home({
       const session = await authorizeUser();
       setSession(session);
       if (session?.user) {
-        addUser(session.user.id || '', session.user.name || '', session.user.email || '', session.user.image || '');
+        addUser(
+          session.user.id || "",
+          session.user.name || "",
+          session.user.email || "",
+          session.user.image || ""
+        );
       }
     }
 
@@ -56,10 +61,10 @@ export default function Home({
       }
     }
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 

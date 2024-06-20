@@ -1,13 +1,9 @@
-import { Metadata } from 'next';
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: 'Your Watchlist - Movie Base',
+  title: "Your Watchlist - Movie Base",
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-    return (
-        <>
-            {children}
-        </>
-    );
+  return <>{children}</>;
 }
