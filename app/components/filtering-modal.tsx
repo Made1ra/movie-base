@@ -5,7 +5,22 @@ import { Modal, Box, Button, Chip, TextField, Typography } from "@mui/material";
 import { Movie } from "@/app/lib/definitions";
 import { getGenres, getTypes } from "@/app/lib/utils";
 
-const FilteringModal = forwardRef(
+export interface FilteringModalRef {
+  deleteFilter: (filter: string, fromParent?: boolean) => void;
+}
+
+const FilteringModal = forwardRef<
+  FilteringModalRef,
+  {
+    open: boolean;
+    movies: Movie[];
+    onApplyFilters: (filteredMovies: Movie[]) => void;
+    onShowFilters: (filters: Map<string, string[] | number>) => void;
+    onDeleteFilter: (filter: string) => void;
+    onResetFilters: () => void;
+    onClose: () => void;
+  }
+>(
   (
     {
       open,
@@ -15,14 +30,6 @@ const FilteringModal = forwardRef(
       onDeleteFilter,
       onResetFilters,
       onClose,
-    }: {
-      open: boolean;
-      movies: Movie[];
-      onApplyFilters: (filteredMovies: Movie[]) => void;
-      onShowFilters: (filters: Map<string, string[] | number>) => void;
-      onDeleteFilter: (filter: string) => void;
-      onResetFilters: () => void;
-      onClose: () => void;
     },
     ref
   ) => {
@@ -124,7 +131,7 @@ const FilteringModal = forwardRef(
     }
 
     useImperativeHandle(ref, () => ({
-      deleteFilter(filter: string) {
+      deleteFilter(filter: string, fromParent = true) {
         switch (filter) {
           case "genres":
             setSelectedGenres([]);
@@ -154,8 +161,9 @@ const FilteringModal = forwardRef(
             break;
         }
 
-        onDeleteFilter(filter);
-        handleApplyFilters();
+        if (fromParent) {
+          onDeleteFilter(filter);
+        }
       },
     }));
 

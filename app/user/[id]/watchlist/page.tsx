@@ -28,13 +28,14 @@ import ChevronUpIcon from "@/app/components/icons/chevron-up-icon";
 import AdjustmentsHorizontalIcon from "@/app/components/icons/adjustments-horizontal-icon";
 import ArrowsUpDownIcon from "@/app/components/icons/arrows-up-down-icon";
 import MovieCard from "@/app/components/movie-card";
-import FilteringModal from "@/app/components/filtering-modal";
+import FilteringModal, {
+  FilteringModalRef,
+} from "@/app/components/filtering-modal";
 
 export default function Watchlist() {
-  const { id } = useParams();
-
   const { user } = useUserStore((state) => state);
 
+  const { id } = useParams();
   const searchParams = useSearchParams();
   const params = useMemo(
     () => new URLSearchParams(searchParams),
@@ -60,7 +61,7 @@ export default function Watchlist() {
   const [votesFrom, setVotesFrom] = useState<number | null>(null);
   const [votesTo, setVotesTo] = useState<number | null>(null);
 
-  const filteringModalRef = useRef(null);
+  const filteringModalRef = useRef<FilteringModalRef>(null);
 
   function handleChange(event: SelectChangeEvent) {
     const newValue = event.target.value;
@@ -160,6 +161,7 @@ export default function Watchlist() {
 
   function applyFilters(filteredMovies: Movie[]) {
     sortMovies(filteredMovies, value, sortOrder);
+    setFilteredMovies(filteredMovies);
   }
 
   function showFilters(filters: Map<string, string[] | number>) {
@@ -271,6 +273,10 @@ export default function Watchlist() {
 
     setFilteredMovies(filteredMovies);
     applyFilters(filteredMovies);
+
+    if (filteringModalRef.current) {
+      filteringModalRef.current.deleteFilter(filter, false);
+    }
   }
 
   function resetFilters() {
