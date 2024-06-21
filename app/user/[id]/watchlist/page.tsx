@@ -452,9 +452,11 @@ export default function Watchlist() {
             ))}
           </>
         ) : (
-          <Typography variant="h6" gutterBottom>
-            No movies found
-          </Typography>
+          <Box className="mt-8">
+            <Typography variant="h6" gutterBottom>
+              No movies found
+            </Typography>
+          </Box>
         )}
       </div>
       <Box className="max-sm:absolute max-sm:left-[21.5rem] max-sm:-top-1">
