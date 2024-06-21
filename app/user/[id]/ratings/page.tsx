@@ -49,9 +49,7 @@ export default function Ratings() {
   const [sortOrder, setSortOrder] = useState<"desc" | "asc">(
     (params.get("order") as "desc" | "asc") || "desc"
   );
-  const [value, setValue] = useState<string>(
-    params.get("sort") || "Alphabetical"
-  );
+  const [value, setValue] = useState<string>(params.get("sort") || "alpha");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [genres, setGenres] = useState<string[]>([]);
   const [types, setTypes] = useState<string[]>([]);
@@ -130,19 +128,19 @@ export default function Ratings() {
   const sortMovies = useCallback(
     (movies: Movie[], sortType: string, sortOrder: "asc" | "desc") => {
       switch (sortType) {
-        case "Alphabetical":
+        case "alpha":
           sortByAlphabet(movies, sortOrder);
           break;
-        case "IMDb rating":
+        case "user_rating":
           sortByIMDbRating(movies, sortOrder);
           break;
-        case "Number of ratings":
+        case "num_votes":
           sortByIMDbVotes(movies, sortOrder);
           break;
-        case "Release date":
+        case "release_date":
           sortByReleaseDate(movies, sortOrder);
           break;
-        case "Runtime":
+        case "runtime":
           sortByRuntime(movies, sortOrder);
           break;
         default:
@@ -355,11 +353,11 @@ export default function Ratings() {
           <InputLabel>Sort by</InputLabel>
         </Box>
         <Select value={value} onChange={handleChange} className="m-2">
-          <MenuItem value="Alphabetical">Alphabetical</MenuItem>
-          <MenuItem value="IMDb rating">IMDb rating</MenuItem>
-          <MenuItem value="Number of ratings">Number of ratings</MenuItem>
-          <MenuItem value="Release date">Release date</MenuItem>
-          <MenuItem value="Runtime">Runtime</MenuItem>
+          <MenuItem value="alpha">Alphabetical</MenuItem>
+          <MenuItem value="user_rating">IMDb rating</MenuItem>
+          <MenuItem value="num_votes">Number of ratings</MenuItem>
+          <MenuItem value="release_date">Release date</MenuItem>
+          <MenuItem value="runtime">Runtime</MenuItem>
         </Select>
         <Button onClick={toggleSortOrder}>
           <ArrowsUpDownIcon />
